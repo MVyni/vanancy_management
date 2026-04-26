@@ -1,6 +1,7 @@
 package rocket.vanancy_management.modules.company.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -20,10 +21,11 @@ public class JobEntity {
     private String benefits;
 
     @ManyToOne()
-    @JoinColumn(name = "company_id")
+    @JoinColumn(name = "company_id", insertable = false, updatable = false)
     private CompanyEntity companyEntity;
 
-    @Column(name = "company_id", insertable = false, updatable = false)
+    @Column(name = "company_id")
+    @NotNull
     private UUID companyId;
 
     @CreationTimestamp
