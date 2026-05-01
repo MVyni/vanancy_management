@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import rocket.vanancy_management.modules.candidates.CandidateRepository;
-import rocket.vanancy_management.modules.candidates.dto.AuthCandidateReqDTO;
+import rocket.vanancy_management.modules.candidates.dto.AuthCandidateRequestDTO;
 import rocket.vanancy_management.modules.candidates.dto.AuthCandidateResponseDTO;
 
 import javax.naming.AuthenticationException;
@@ -28,7 +28,7 @@ public class AuthCandidateService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public AuthCandidateResponseDTO execute(AuthCandidateReqDTO authCandidateReqDTO) throws AuthenticationException {
+    public AuthCandidateResponseDTO execute(AuthCandidateRequestDTO authCandidateReqDTO) throws AuthenticationException {
 
         var candidate = this.candidateRepository.findByUsername(authCandidateReqDTO.username())
                 .orElseThrow(() -> {
@@ -42,15 +42,17 @@ public class AuthCandidateService {
         }
 
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
+        var expiresIn = Instant.now().plus(Duration.ofMinutes(10));
         var token = JWT.create()
                 .withIssuer("javagas")
-                .withExpiresAt(Instant.now().plus(Duration.ofMinutes(10)))
-                .withClaim("roles", Arrays.asList("candidate"))
+                .withExpiresAt(expiresIn)
+                .withClaim("roles", Arrays.asList("CANDIDATE"))
                 .withSubject(candidate.getId().toString())
                 .sign(algorithm);
 
         var authCandidateResponse = AuthCandidateResponseDTO.builder()
                 .access_token(token)
+                .expires_in(expiresIn.toEpochMilli())
                 .build();
 
         return authCandidateResponse;
