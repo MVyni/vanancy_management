@@ -7,10 +7,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import rocket.vanancy_management.modules.candidates.CandidateEntity;
-import rocket.vanancy_management.modules.candidates.dto.ProfileCandidateResponseDTO;
 import rocket.vanancy_management.modules.candidates.services.CreateCandidateService;
+import rocket.vanancy_management.modules.candidates.services.ListAllJobsByFilterService;
 import rocket.vanancy_management.modules.candidates.services.ProfileCandidateService;
+import rocket.vanancy_management.modules.company.entities.JobEntity;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -22,6 +24,9 @@ public class CandidateController {
 
     @Autowired
     private ProfileCandidateService profileCandidateService;
+
+    @Autowired
+    private ListAllJobsByFilterService listAllJobsByFilterService;
 
     @PostMapping("/")
     public ResponseEntity<Object> create(@Valid @RequestBody CandidateEntity candidateEntity) {
@@ -51,5 +56,11 @@ public class CandidateController {
 
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+    @GetMapping("/job")
+    @PreAuthorize("hasRole('CANDIDATE')")
+    public List<JobEntity> getAllJobsByFilter(@RequestParam String filter) {
+        return this.listAllJobsByFilterService.execute(filter);
     }
 }
