@@ -9,5 +9,5 @@ import java.util.UUID;
 public interface JobRepository extends JpaRepository<JobEntity, UUID> {
     // CONTAINS - LIKE
     // SELECT * from job where description like %filter%
-    List<JobEntity> findByFilterContaining(String filter);
+    List<JobEntity> findByDescriptionContainingIgnoreCase(String filter);
 }
