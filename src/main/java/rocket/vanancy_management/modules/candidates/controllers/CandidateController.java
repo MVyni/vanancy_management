@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import rocket.vanancy_management.modules.candidates.CandidateEntity;
+import rocket.vanancy_management.modules.candidates.dto.ProfileCandidateResponseDTO;
 import rocket.vanancy_management.modules.candidates.services.CreateCandidateService;
 import rocket.vanancy_management.modules.candidates.services.ListAllJobsByFilterService;
 import rocket.vanancy_management.modules.candidates.services.ProfileCandidateService;
@@ -25,6 +26,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/candidate")
+@Tag(name = "Candidate", description = "Candidate infos")
 public class CandidateController {
 
     @Autowired
@@ -37,6 +39,14 @@ public class CandidateController {
     private ListAllJobsByFilterService listAllJobsByFilterService;
 
     @PostMapping("/")
+    @Operation(summary = "Create a new candidate", description = "Create a new candidate with the provided information")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = {
+                    @Content(schema = @Schema(implementation = CandidateEntity.class))
+            }),
+
+            @ApiResponse(responseCode = "400", description = "User already exists."),
+    })
     public ResponseEntity<Object> create(@Valid @RequestBody CandidateEntity candidateEntity) {
 
         try {
@@ -51,6 +61,16 @@ public class CandidateController {
 
     @GetMapping("/profile")
     @PreAuthorize("hasRole('CANDIDATE')")
+    @Operation(summary = "Get candidate profile", description = "Get candidate profile by id")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = {
+                    @Content(schema = @Schema(implementation = ProfileCandidateResponseDTO.class))
+            }),
+
+            @ApiResponse(responseCode = "400", description = "User not found."),
+    })
+    //TO USER AUTH
+    @SecurityRequirement(name = "jwt_auth")
     public ResponseEntity<Object> get(HttpServletRequest request) {
 
         var candidateId = request.getAttribute("candidate_id");
@@ -69,7 +89,6 @@ public class CandidateController {
     @GetMapping("/job")
     @PreAuthorize("hasRole('CANDIDATE')")
     //SWAGGER CONFIGS
-    @Tag(name = "Candidate", description = "Candidate infos")
     @Operation(summary = "List all jobs by filter", description = "List all jobs that contains the filter in the description")
     @ApiResponses({
             @ApiResponse(responseCode = "200", content = {
