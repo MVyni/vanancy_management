@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import rocket.vanancy_management.modules.candidates.CandidateRepository;
+import rocket.vanancy_management.modules.candidates.repositories.CandidateRepository;
 import rocket.vanancy_management.modules.candidates.dto.AuthCandidateRequestDTO;
 import rocket.vanancy_management.modules.candidates.dto.AuthCandidateResponseDTO;
 

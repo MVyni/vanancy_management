@@ -1,4 +1,4 @@
-package rocket.vanancy_management.modules.candidates;
+package rocket.vanancy_management.modules.candidates.entities;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;

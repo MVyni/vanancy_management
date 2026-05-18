@@ -3,8 +3,7 @@ package rocket.vanancy_management.modules.candidates.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import rocket.vanancy_management.modules.candidates.CandidateEntity;
-import rocket.vanancy_management.modules.candidates.CandidateRepository;
+import rocket.vanancy_management.modules.candidates.repositories.CandidateRepository;
 import rocket.vanancy_management.modules.candidates.dto.ProfileCandidateResponseDTO;
 
 import java.util.UUID;

@@ -1,6 +1,7 @@
-package rocket.vanancy_management.modules.candidates;
+package rocket.vanancy_management.modules.candidates.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import rocket.vanancy_management.modules.candidates.entities.CandidateEntity;
 
 import java.util.Optional;
 import java.util.UUID;

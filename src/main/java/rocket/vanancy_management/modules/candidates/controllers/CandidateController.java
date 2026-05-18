@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import rocket.vanancy_management.modules.candidates.CandidateEntity;
+import rocket.vanancy_management.modules.candidates.entities.CandidateEntity;
 import rocket.vanancy_management.modules.candidates.dto.ProfileCandidateResponseDTO;
 import rocket.vanancy_management.modules.candidates.services.CreateCandidateService;
 import rocket.vanancy_management.modules.candidates.services.ListAllJobsByFilterService;

@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import rocket.vanancy_management.exceptions.UserAlreadyExists;
-import rocket.vanancy_management.modules.candidates.CandidateEntity;
-import rocket.vanancy_management.modules.candidates.CandidateRepository;
+import rocket.vanancy_management.modules.candidates.entities.CandidateEntity;
+import rocket.vanancy_management.modules.candidates.repositories.CandidateRepository;
 
 
 
