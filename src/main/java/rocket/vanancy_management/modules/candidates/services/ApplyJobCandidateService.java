@@ -1,6 +1,7 @@
 package rocket.vanancy_management.modules.candidates.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import rocket.vanancy_management.exceptions.JobNotFoundException;
 import rocket.vanancy_management.exceptions.UserNotFoundException;
 import rocket.vanancy_management.modules.candidates.entities.ApplyJobEntity;
@@ -10,6 +11,7 @@ import rocket.vanancy_management.modules.company.repositories.JobRepository;
 
 import java.util.UUID;
 
+@Service
 public class ApplyJobCandidateService {
 
     @Autowired

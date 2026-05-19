@@ -14,8 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import rocket.vanancy_management.modules.candidates.entities.ApplyJobEntity;
 import rocket.vanancy_management.modules.candidates.entities.CandidateEntity;
 import rocket.vanancy_management.modules.candidates.dto.ProfileCandidateResponseDTO;
+import rocket.vanancy_management.modules.candidates.services.ApplyJobCandidateService;
 import rocket.vanancy_management.modules.candidates.services.CreateCandidateService;
 import rocket.vanancy_management.modules.candidates.services.ListAllJobsByFilterService;
 import rocket.vanancy_management.modules.candidates.services.ProfileCandidateService;
@@ -37,6 +39,9 @@ public class CandidateController {
 
     @Autowired
     private ListAllJobsByFilterService listAllJobsByFilterService;
+
+    @Autowired
+    private ApplyJobCandidateService applyJobCandidateService;
 
     @PostMapping("/")
     @Operation(summary = "Create a new candidate", description = "Create a new candidate with the provided information")
@@ -99,5 +104,27 @@ public class CandidateController {
     @SecurityRequirement(name = "jwt_auth")
     public List<JobEntity> getAllJobsByFilter(@RequestParam String filter) {
         return this.listAllJobsByFilterService.execute(filter);
+    }
+
+    @PostMapping("/job/apply")
+    @PreAuthorize("hasRole('CANDIDATE')")
+    @SecurityRequirement(name = "jwt_auth")
+    @Operation(summary = "Apply for a job", description = "Apply for a job with the provided job id")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = {
+                    @Content(schema = @Schema(implementation = ApplyJobEntity.class))
+            })
+    })
+    public ResponseEntity<Object> applyJob(HttpServletRequest request, @RequestBody UUID idJob) {
+
+        var idCandidate =  request.getAttribute("candidate_id");
+
+        try {
+            var result = this.applyJobCandidateService.execute(UUID.fromString(idCandidate.toString()), idJob);
+            return ResponseEntity.ok().body(result);
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
